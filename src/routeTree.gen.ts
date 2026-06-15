@@ -16,6 +16,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as TreatmentsIndexRouteImport } from './routes/treatments.index'
 import { Route as ConditionsIndexRouteImport } from './routes/conditions.index'
 import { Route as TreatmentsSlugRouteImport } from './routes/treatments.$slug'
+import { Route as ConditionsOsteoarthritisRouteImport } from './routes/conditions.osteoarthritis'
 import { Route as ConditionsSlugRouteImport } from './routes/conditions.$slug'
 import { Route as AboutTeamRouteImport } from './routes/about.team'
 import { Route as AboutPracticeRouteImport } from './routes/about.practice'
@@ -55,6 +56,12 @@ const TreatmentsSlugRoute = TreatmentsSlugRouteImport.update({
   path: '/treatments/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConditionsOsteoarthritisRoute =
+  ConditionsOsteoarthritisRouteImport.update({
+    id: '/conditions/osteoarthritis',
+    path: '/conditions/osteoarthritis',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ConditionsSlugRoute = ConditionsSlugRouteImport.update({
   id: '/conditions/$slug',
   path: '/conditions/$slug',
@@ -79,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/about/practice': typeof AboutPracticeRoute
   '/about/team': typeof AboutTeamRoute
   '/conditions/$slug': typeof ConditionsSlugRoute
+  '/conditions/osteoarthritis': typeof ConditionsOsteoarthritisRoute
   '/treatments/$slug': typeof TreatmentsSlugRoute
   '/conditions/': typeof ConditionsIndexRoute
   '/treatments/': typeof TreatmentsIndexRoute
@@ -91,6 +99,7 @@ export interface FileRoutesByTo {
   '/about/practice': typeof AboutPracticeRoute
   '/about/team': typeof AboutTeamRoute
   '/conditions/$slug': typeof ConditionsSlugRoute
+  '/conditions/osteoarthritis': typeof ConditionsOsteoarthritisRoute
   '/treatments/$slug': typeof TreatmentsSlugRoute
   '/conditions': typeof ConditionsIndexRoute
   '/treatments': typeof TreatmentsIndexRoute
@@ -104,6 +113,7 @@ export interface FileRoutesById {
   '/about/practice': typeof AboutPracticeRoute
   '/about/team': typeof AboutTeamRoute
   '/conditions/$slug': typeof ConditionsSlugRoute
+  '/conditions/osteoarthritis': typeof ConditionsOsteoarthritisRoute
   '/treatments/$slug': typeof TreatmentsSlugRoute
   '/conditions/': typeof ConditionsIndexRoute
   '/treatments/': typeof TreatmentsIndexRoute
@@ -118,6 +128,7 @@ export interface FileRouteTypes {
     | '/about/practice'
     | '/about/team'
     | '/conditions/$slug'
+    | '/conditions/osteoarthritis'
     | '/treatments/$slug'
     | '/conditions/'
     | '/treatments/'
@@ -130,6 +141,7 @@ export interface FileRouteTypes {
     | '/about/practice'
     | '/about/team'
     | '/conditions/$slug'
+    | '/conditions/osteoarthritis'
     | '/treatments/$slug'
     | '/conditions'
     | '/treatments'
@@ -142,6 +154,7 @@ export interface FileRouteTypes {
     | '/about/practice'
     | '/about/team'
     | '/conditions/$slug'
+    | '/conditions/osteoarthritis'
     | '/treatments/$slug'
     | '/conditions/'
     | '/treatments/'
@@ -155,6 +168,7 @@ export interface RootRouteChildren {
   AboutPracticeRoute: typeof AboutPracticeRoute
   AboutTeamRoute: typeof AboutTeamRoute
   ConditionsSlugRoute: typeof ConditionsSlugRoute
+  ConditionsOsteoarthritisRoute: typeof ConditionsOsteoarthritisRoute
   TreatmentsSlugRoute: typeof TreatmentsSlugRoute
   ConditionsIndexRoute: typeof ConditionsIndexRoute
   TreatmentsIndexRoute: typeof TreatmentsIndexRoute
@@ -211,6 +225,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TreatmentsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/conditions/osteoarthritis': {
+      id: '/conditions/osteoarthritis'
+      path: '/conditions/osteoarthritis'
+      fullPath: '/conditions/osteoarthritis'
+      preLoaderRoute: typeof ConditionsOsteoarthritisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/conditions/$slug': {
       id: '/conditions/$slug'
       path: '/conditions/$slug'
@@ -243,6 +264,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutPracticeRoute: AboutPracticeRoute,
   AboutTeamRoute: AboutTeamRoute,
   ConditionsSlugRoute: ConditionsSlugRoute,
+  ConditionsOsteoarthritisRoute: ConditionsOsteoarthritisRoute,
   TreatmentsSlugRoute: TreatmentsSlugRoute,
   ConditionsIndexRoute: ConditionsIndexRoute,
   TreatmentsIndexRoute: TreatmentsIndexRoute,
@@ -250,13 +272,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
